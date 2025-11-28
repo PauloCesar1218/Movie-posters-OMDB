@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Search</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Movie Search</h1>
+        </header>
+        
+        <main>
+            <div class="search-container">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="Search for a movie or show..."
+                    autocomplete="off"
+                >
+                <div class="search-icon">🔍</div>
+            </div>
+            
+            <div id="loadingIndicator" class="loading hidden">Loading...</div>
+            
+            <div id="resultsContainer" class="results-container"></div>
+        </main>
+    </div>
+    
+    <div id="bottomSheet" class="bottom-sheet">
+        <div class="bottom-sheet-header">
+            <h2 id="bottomSheetTitle"></h2>
+            <button id="closeBottomSheet" class="close-btn">×</button>
+        </div>
+        <div id="bottomSheetContent" class="bottom-sheet-content"></div>
+    </div>
+    
+    <div id="overlay" class="overlay hidden"></div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
+

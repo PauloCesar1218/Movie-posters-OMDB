@@ -14,30 +14,36 @@
         
         <main>
             <div class="search-container">
+                <label for="searchInput" class="visually-hidden">Search for a movie or show</label>
                 <input 
                     type="text" 
                     id="searchInput" 
                     placeholder="Search for a movie or show..."
                     autocomplete="off"
+                    aria-label="Search for a movie or show"
+                    aria-describedby="search-hint"
                 >
-                <div class="search-icon">🔍</div>
+                <div class="search-icon" aria-hidden="true">🔍</div>
+                <div id="search-hint" class="visually-hidden">Type at least 3 characters to search</div>
             </div>
             
-            <div id="loadingIndicator" class="loading hidden">Loading...</div>
+            <div id="loadingIndicator" class="loading hidden" role="status" aria-live="polite" aria-atomic="true">Loading...</div>
             
-            <div id="resultsContainer" class="results-container"></div>
+            <div id="resultsContainer" class="results-container" role="region" aria-label="Search results" aria-live="polite" aria-atomic="false"></div>
         </main>
     </div>
     
-    <div id="bottomSheet" class="bottom-sheet">
+    <div id="bottomSheet" class="bottom-sheet" role="dialog" aria-modal="true" aria-labelledby="bottomSheetTitle" aria-hidden="true">
         <div class="bottom-sheet-header">
             <h2 id="bottomSheetTitle"></h2>
-            <button id="closeBottomSheet" class="close-btn">×</button>
+            <button id="closeBottomSheet" class="close-btn" aria-label="Close movie details">×</button>
         </div>
         <div id="bottomSheetContent" class="bottom-sheet-content"></div>
     </div>
     
-    <div id="overlay" class="overlay hidden"></div>
+    <div id="overlay" class="overlay hidden" aria-hidden="true"></div>
+    
+    <div id="screenReaderAnnouncements" role="status" aria-live="assertive" aria-atomic="true" class="visually-hidden"></div>
     
     <script src="script.js"></script>
 </body>

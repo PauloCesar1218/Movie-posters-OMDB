@@ -10,7 +10,34 @@ A vanilla JavaScript movie search app using the OMDB API. Built with HTML, CSS, 
 
 ## Getting Started
 
-Open `index.html` in your browser. No installation needed.
+### Backend Setup (Required)
+
+1. Navigate to the `proxy` folder:
+```bash
+cd proxy
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Create `.env` file from `.env-example` and add your OMDB API key:
+```bash
+cp .env-example .env
+# Edit .env and add your API key
+```
+
+4. Start the proxy server:
+```bash
+npm start
+```
+
+The server will run on `http://localhost:3000`
+
+### Frontend
+
+Open `index.html` in your browser. The frontend will connect to the proxy server running on port 3000.
 
 ## Features
 
@@ -23,6 +50,10 @@ Open `index.html` in your browser. No installation needed.
 - `index.html` - Main page structure
 - `styles.css` - Responsive styling
 - `script.js` - Application logic
+- `proxy/` - Backend proxy server (Node.js/Express)
+  - `server.js` - Express server with OMDB API endpoints
+  - `.env` - Environment variables (API keys, not committed to git)
+  - `package.json` - Node.js dependencies
 
 ## Technical Decisions
 

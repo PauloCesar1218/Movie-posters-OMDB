@@ -110,6 +110,4 @@ This was an important security change, because innerHTML parses HTML strings, wh
 - **Infinite Scroll**: Implement pagination or infinite scroll for search results to handle large result sets
 - **Virtualization**: Use virtual scrolling for better performance with hundreds of results
 - **Favorites/Bookmarking**: Add ability to save favorite movies with localStorage
-- **Keyboard Navigation**: Support arrow keys and Enter for navigating and selecting movies
 - **Error Handling**: Add retry mechanisms and better error messages for failed API calls
-- **Accessibility**: Improve ARIA labels, keyboard navigation, and screen reader support

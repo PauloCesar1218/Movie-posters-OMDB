@@ -43,22 +43,6 @@ const generalLimiter = rateLimit({
     legacyHeaders: false,
 });
 
-const searchLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000,
-    max: 50,
-    message: { Response: 'False', Error: 'Too many search requests, please try again later.' },
-    standardHeaders: true,
-    legacyHeaders: false,
-});
-
-const detailsLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000,
-    max: 200,
-    message: { Response: 'False', Error: 'Too many detail requests, please try again later.' },
-    standardHeaders: true,
-    legacyHeaders: false,
-});
-
 app.use('/api', generalLimiter);
 
 function validateSearchQuery(query) {
@@ -130,7 +114,7 @@ async function fetchWithTimeout(url, timeout = 10000) {
     });
 }
 
-app.get('/api/search', searchLimiter, async (req, res) => {
+app.get('/api/search', async (req, res) => {
     try {
         const { s } = req.query;
         
@@ -167,7 +151,7 @@ app.get('/api/search', searchLimiter, async (req, res) => {
     }
 });
 
-app.get('/api/details', detailsLimiter, async (req, res) => {
+app.get('/api/details', async (req, res) => {
     try {
         const { i } = req.query;
         

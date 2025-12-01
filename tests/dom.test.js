@@ -1,15 +1,9 @@
-import { describe, it, expect, beforeEach, beforeAll } from 'vitest';
-import { loadScriptFunctions, setupDOM } from './helpers.js';
-
-let createMovieCard, createSkeletonCard, createSkeletonDetails, createElement;
+import { describe, it, expect, beforeAll } from 'vitest';
+import { setupDOM } from './helpers.js';
+import { createMovieCard, createSkeletonCard, createSkeletonDetails, createElement } from '../script.js';
 
 beforeAll(() => {
   setupDOM();
-  const functions = loadScriptFunctions();
-  createMovieCard = functions.createMovieCard;
-  createSkeletonCard = functions.createSkeletonCard;
-  createSkeletonDetails = functions.createSkeletonDetails;
-  createElement = functions.createElement;
 });
 
 describe('DOM Manipulation Functions', () => {

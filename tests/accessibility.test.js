@@ -1,15 +1,11 @@
 import { describe, it, expect, beforeEach, beforeAll, vi, afterEach } from 'vitest';
-import { loadScriptFunctions, setupDOM } from './helpers.js';
+import { setupDOM } from './helpers.js';
+import { announceToScreenReader, createMovieCard } from '../script.js';
 
-let announceToScreenReader, createMovieCard;
 let screenReaderAnnouncements;
 
 beforeAll(() => {
   setupDOM();
-  const functions = loadScriptFunctions();
-  announceToScreenReader = functions.announceToScreenReader;
-  createMovieCard = functions.createMovieCard;
-  
   screenReaderAnnouncements = document.getElementById('screenReaderAnnouncements');
 });
 

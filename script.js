@@ -1,5 +1,5 @@
-const PROXY_API_URL = 'http://localhost:3000/api';
-const DEBOUNCE_DELAY = 500;
+export const PROXY_API_URL = 'http://localhost:3000/api';
+export const DEBOUNCE_DELAY = 500;
 
 const searchInput = document.getElementById('searchInput');
 const resultsContainer = document.getElementById('resultsContainer');
@@ -11,11 +11,11 @@ const closeBottomSheet = document.getElementById('closeBottomSheet');
 const overlay = document.getElementById('overlay');
 const screenReaderAnnouncements = document.getElementById('screenReaderAnnouncements');
 
-let currentDetailsElement = null;
-let detailsCache = {};
+export let currentDetailsElement = null;
+export let detailsCache = {};
 let isMobile = window.innerWidth <= 768;
 
-function debounce(func, delay) {
+export function debounce(func, delay) {
     let timeout;
     return function(...args) {
         clearTimeout(timeout);
@@ -23,24 +23,24 @@ function debounce(func, delay) {
     };
 }
 
-function isMobileDevice() {
+export function isMobileDevice() {
     return window.innerWidth <= 768;
 }
 
-function createElement(tag, className, textContent) {
+export function createElement(tag, className, textContent) {
     const element = document.createElement(tag);
     if (className) element.className = className;
     if (textContent !== undefined) element.textContent = textContent;
     return element;
 }
 
-function clearContainer(container) {
+export function clearContainer(container) {
     while (container.firstChild) {
         container.removeChild(container.firstChild);
     }
 }
 
-function announceToScreenReader(message) {
+export function announceToScreenReader(message) {
     if (!screenReaderAnnouncements) return;
     
     screenReaderAnnouncements.textContent = '';
@@ -54,7 +54,7 @@ function announceToScreenReader(message) {
     }, 2000);
 }
 
-async function searchMovies(query) {
+export async function searchMovies(query) {
     if (!query || query.trim().length < 3) {
         clearContainer(resultsContainer);
         return;
@@ -86,7 +86,7 @@ async function searchMovies(query) {
     }
 }
 
-function createSkeletonCard() {
+export function createSkeletonCard() {
     const wrapper = document.createElement('div');
     wrapper.className = 'movie-card-wrapper';
     
@@ -115,7 +115,7 @@ function createSkeletonCard() {
     return wrapper;
 }
 
-function displayResults(movies) {
+export function displayResults(movies) {
     clearContainer(resultsContainer);
     
     movies.forEach(movie => {
@@ -124,7 +124,7 @@ function displayResults(movies) {
     });
 }
 
-function createMovieCard(movie) {
+export function createMovieCard(movie) {
     const wrapper = document.createElement('div');
     wrapper.className = 'movie-card-wrapper';
     
@@ -180,7 +180,7 @@ function createMovieCard(movie) {
     return wrapper;
 }
 
-function createSkeletonDetails() {
+export function createSkeletonDetails() {
     const fragment = document.createDocumentFragment();
     
     for (let i = 0; i < 6; i++) {
@@ -205,7 +205,7 @@ function createSkeletonDetails() {
     return fragment;
 }
 
-function showMovieDetailsOnHover(imdbId, cardElement) {
+export function showMovieDetailsOnHover(imdbId, cardElement) {
     const wrapper = cardElement.closest('.movie-card-wrapper');
     if (!wrapper) return;
     
@@ -285,7 +285,7 @@ function showMovieDetailsOnHover(imdbId, cardElement) {
     });
 }
 
-function hideMovieDetailsOnHover() {
+export function hideMovieDetailsOnHover() {
     if (currentDetailsElement) {
         currentDetailsElement.classList.remove('visible');
         currentDetailsElement.setAttribute('aria-hidden', 'true');
@@ -293,9 +293,9 @@ function hideMovieDetailsOnHover() {
     }
 }
 
-let previousActiveElement = null;
+export let previousActiveElement = null;
 
-function showMovieDetails(imdbId, cardElement) {
+export function showMovieDetails(imdbId, cardElement) {
     if (!bottomSheet || !bottomSheetTitle || !bottomSheetContent) {
         console.error('Bottom sheet elements not found');
         return;
@@ -357,7 +357,7 @@ function showMovieDetails(imdbId, cardElement) {
     });
 }
 
-function fetchMovieDetails(imdbId, callback) {
+export function fetchMovieDetails(imdbId, callback) {
     if (detailsCache[imdbId]) {
         callback(detailsCache[imdbId]);
         return;
@@ -381,7 +381,7 @@ function fetchMovieDetails(imdbId, callback) {
         });
 }
 
-function formatDetailsForHover(details) {
+export function formatDetailsForHover(details) {
     const fragment = document.createDocumentFragment();
     
     if (details.Error) {
@@ -424,7 +424,7 @@ function formatDetailsForHover(details) {
     return fragment;
 }
 
-function formatDetailsForBottomSheet(details) {
+export function formatDetailsForBottomSheet(details) {
     const fragment = document.createDocumentFragment();
     
     if (details.Error) {
@@ -490,7 +490,7 @@ function formatDetailsForBottomSheet(details) {
     return fragment;
 }
 
-function closeBottomSheetHandler() {
+export function closeBottomSheetHandler() {
     bottomSheet.classList.remove('open');
     overlay.classList.remove('visible');
     bottomSheet.setAttribute('aria-hidden', 'true');
@@ -503,7 +503,7 @@ function closeBottomSheetHandler() {
     }
 }
 
-function showLoading() {
+export function showLoading() {
     clearContainer(resultsContainer);
     loadingIndicator.classList.remove('hidden');
     loadingIndicator.textContent = 'Loading movies...';
@@ -513,13 +513,13 @@ function showLoading() {
     }
 }
 
-function hideLoading() {
+export function hideLoading() {
     loadingIndicator.classList.add('hidden');
     const skeletonCards = resultsContainer.querySelectorAll('.skeleton-card');
     skeletonCards.forEach(card => card.remove());
 }
 
-function displayNoResults() {
+export function displayNoResults() {
     clearContainer(resultsContainer);
     const noResults = createElement('div', 'no-results', 'No results found. Try a different search term.');
     resultsContainer.appendChild(noResults);

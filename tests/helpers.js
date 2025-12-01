@@ -1,83 +1,10 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { vi } from 'vitest';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-let functionsLoaded = false;
-let scriptFunctions = {};
+import * as scriptFunctions from '../script.js';
+import { detailsCache } from '../script.js';
 
 export function clearDetailsCache() {
-  if (window.detailsCache) {
-    Object.keys(window.detailsCache).forEach(key => {
-      delete window.detailsCache[key];
-    });
-  }
-}
-
-export function loadScriptFunctions(reload = false) {
-  if (functionsLoaded && !reload) {
-    window.fetch = global.fetch;
-    return scriptFunctions;
-  }
-  
-  functionsLoaded = false;
-
-  let scriptContent = fs.readFileSync(path.join(__dirname, '../script.js'), 'utf-8');
-  
-  if (!global.fetch) {
-    global.fetch = vi.fn();
-  }
-  
-  window.fetch = global.fetch;
-  
-  scriptContent = scriptContent.replace(/\bfetch\(/g, 'window.fetch(');
-  scriptContent = scriptContent.replace(/let detailsCache = \{\};/g, 'if (!window.detailsCache) window.detailsCache = {};');
-  scriptContent = scriptContent.replace(/\bdetailsCache\[/g, 'window.detailsCache[');
-  scriptContent = scriptContent.replace(/detailsCache\[/g, 'window.detailsCache[');
-  
-  const scriptFunction = new Function(
-    'document',
-    'window',
-    'HTMLElement',
-    'Element',
-    'Node',
-    `
-    if (!window.detailsCache) {
-      window.detailsCache = {};
-    }
-    ${scriptContent}
-    return {
-      debounce: typeof debounce !== 'undefined' ? debounce : null,
-      isMobileDevice: typeof isMobileDevice !== 'undefined' ? isMobileDevice : null,
-      createElement: typeof createElement !== 'undefined' ? createElement : null,
-      clearContainer: typeof clearContainer !== 'undefined' ? clearContainer : null,
-      announceToScreenReader: typeof announceToScreenReader !== 'undefined' ? announceToScreenReader : null,
-      createMovieCard: typeof createMovieCard !== 'undefined' ? createMovieCard : null,
-      createSkeletonCard: typeof createSkeletonCard !== 'undefined' ? createSkeletonCard : null,
-      createSkeletonDetails: typeof createSkeletonDetails !== 'undefined' ? createSkeletonDetails : null,
-      displayResults: typeof displayResults !== 'undefined' ? displayResults : null,
-      displayNoResults: typeof displayNoResults !== 'undefined' ? displayNoResults : null,
-      showLoading: typeof showLoading !== 'undefined' ? showLoading : null,
-      hideLoading: typeof hideLoading !== 'undefined' ? hideLoading : null,
-      searchMovies: typeof searchMovies !== 'undefined' ? searchMovies : null,
-      fetchMovieDetails: typeof fetchMovieDetails !== 'undefined' ? fetchMovieDetails : null,
-      formatDetailsForHover: typeof formatDetailsForHover !== 'undefined' ? formatDetailsForHover : null,
-      formatDetailsForBottomSheet: typeof formatDetailsForBottomSheet !== 'undefined' ? formatDetailsForBottomSheet : null,
-      showMovieDetails: typeof showMovieDetails !== 'undefined' ? showMovieDetails : null,
-      showMovieDetailsOnHover: typeof showMovieDetailsOnHover !== 'undefined' ? showMovieDetailsOnHover : null,
-      hideMovieDetailsOnHover: typeof hideMovieDetailsOnHover !== 'undefined' ? hideMovieDetailsOnHover : null,
-      closeBottomSheetHandler: typeof closeBottomSheetHandler !== 'undefined' ? closeBottomSheetHandler : null
-    };
-    `
-  );
-  
-  scriptFunctions = scriptFunction(document, window, HTMLElement, Element, Node);
-  functionsLoaded = true;
-  
-  return scriptFunctions;
+  Object.keys(detailsCache).forEach(key => {
+    delete detailsCache[key];
+  });
 }
 
 export function setupDOM() {
@@ -150,3 +77,4 @@ export function setupDOM() {
   }
 }
 
+export { scriptFunctions };

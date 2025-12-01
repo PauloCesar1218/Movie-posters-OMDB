@@ -1,20 +1,11 @@
 import { describe, it, expect, beforeEach, beforeAll, vi, afterEach } from 'vitest';
-import { loadScriptFunctions, setupDOM, clearDetailsCache } from './helpers.js';
+import { setupDOM, clearDetailsCache } from './helpers.js';
+import { searchMovies, fetchMovieDetails, displayResults, displayNoResults, showLoading, hideLoading, announceToScreenReader } from '../script.js';
 
-let searchMovies, fetchMovieDetails, displayResults, displayNoResults, showLoading, hideLoading, announceToScreenReader;
 let resultsContainer, screenReaderAnnouncements;
 
 beforeAll(() => {
   setupDOM();
-  const functions = loadScriptFunctions();
-  searchMovies = functions.searchMovies;
-  fetchMovieDetails = functions.fetchMovieDetails;
-  displayResults = functions.displayResults;
-  displayNoResults = functions.displayNoResults;
-  showLoading = functions.showLoading;
-  hideLoading = functions.hideLoading;
-  announceToScreenReader = functions.announceToScreenReader;
-  
   resultsContainer = document.getElementById('resultsContainer');
   screenReaderAnnouncements = document.getElementById('screenReaderAnnouncements');
 });

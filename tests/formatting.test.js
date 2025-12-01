@@ -1,14 +1,9 @@
 import { describe, it, expect, beforeAll } from 'vitest';
-import { loadScriptFunctions, setupDOM } from './helpers.js';
-
-let formatDetailsForHover, formatDetailsForBottomSheet, createElement;
+import { setupDOM } from './helpers.js';
+import { formatDetailsForHover, formatDetailsForBottomSheet, createElement } from '../script.js';
 
 beforeAll(() => {
   setupDOM();
-  const functions = loadScriptFunctions();
-  formatDetailsForHover = functions.formatDetailsForHover;
-  formatDetailsForBottomSheet = functions.formatDetailsForBottomSheet;
-  createElement = functions.createElement;
 });
 
 describe('Formatting Functions', () => {
